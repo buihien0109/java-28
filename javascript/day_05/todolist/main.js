@@ -56,7 +56,7 @@ const deleteTodo = (id) => {
     if(!isConfirm) return;
 
     // todos = todos.filter(todo => todo.id !== id);
-    const index = todos.findIndex(todo => todo.id === id);
+    const index = todos.findIndex((todo) => todo.id === id);
     todos.splice(index, 1);
     renderTodos(todos);
 };
