@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -44,37 +46,21 @@ public class BookController {
     3. Viết API để tìm kiếm các cuốn sách có year được sản xuất từ năm A -> năm B
     GET: /books/startYear/{startYear}/endYear/{endYear}
     */
-//    @GetMapping("/sortByYear")
-//    public ResponseEntity<List<Book>> sortByYear() {
-//        books.sort(new Comparator<Book>() {
-//            @Override
-//            public int compare(Book o1, Book o2) {
-//                return o2.getYear() - o1.getYear();
-//            }
-//        });
-//
-//        return ResponseEntity.ok(books);
-//    }
-//
-//    @GetMapping("/search/{keyword}")
-//    public ResponseEntity<List<Book>> getBooksByKeyword(@PathVariable String keyword) {
-//        List<Book> rs = new ArrayList<>();
-//        for (Book book : books) {
-//            if (book.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
-//                rs.add(book);
-//            }
-//        }
-//        return ResponseEntity.ok(rs);
-//    }
-//
-//    @GetMapping("/startYear/{startYear}/endYear/{endYear}")
-//    public ResponseEntity<List<Book>> getBooksByYear(@PathVariable int startYear, @PathVariable int endYear) {
-//        List<Book> rs = new ArrayList<>();
-//        for (Book book : books) {
-//            if (book.getYear() >= startYear && book.getYear() <= endYear) {
-//                rs.add(book);
-//            }
-//        }
-//        return ResponseEntity.ok(rs);
-//    }
+    @GetMapping("/sortByYear")
+    public ResponseEntity<List<Book>> sortByYear() {
+        List<Book> books = bookService.sortByYear();
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<List<Book>> getBooksByKeyword(@PathVariable String keyword) {
+        List<Book> books = bookService.getBooksByKeyword(keyword);
+        return ResponseEntity.ok(books);
+    }
+
+    @GetMapping("/startYear/{startYear}/endYear/{endYear}")
+    public ResponseEntity<List<Book>> getBooksByYear(@PathVariable int startYear, @PathVariable int endYear) {
+        List<Book> books = bookService.getBooksByYear(startYear, endYear);
+        return ResponseEntity.ok(books);
+    }
 }

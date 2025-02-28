@@ -8,4 +8,8 @@ public interface BookRepository {
     List<Book> findAll();
 
     Book findById(String id);
+
+    List<Book> findByTitleContainingIgnoreCase(String keyword);
+
+    List<Book> findByYearBetween(int startYear, int endYear);
 }

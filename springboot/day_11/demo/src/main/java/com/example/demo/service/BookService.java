@@ -8,4 +8,10 @@ public interface BookService {
     List<Book> getAllBooks();
 
     Book getBookById(String id);
+
+    List<Book> sortByYear();
+
+    List<Book> getBooksByKeyword(String keyword);
+
+    List<Book> getBooksByYear(int startYear, int endYear);
 }
