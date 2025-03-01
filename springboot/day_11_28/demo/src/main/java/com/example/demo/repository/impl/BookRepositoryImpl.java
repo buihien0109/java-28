@@ -10,7 +10,17 @@ import java.util.List;
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     @Override
-    public List<Book> findAll() {
+    public List<Book> findAll() { // select * from books
         return BookDB.books;
+    }
+
+    @Override
+    public Book findById(String id) { // select * from books where id = ?
+        for (Book book : BookDB.books) {
+            if (book.getId().equals(id)) {
+                return book;
+            }
+        }
+        return null;
     }
 }

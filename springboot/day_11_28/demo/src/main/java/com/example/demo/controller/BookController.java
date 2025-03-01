@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -28,15 +26,11 @@ public class BookController {
     }
 
     // 2. Lấy chi tiết book theo id: GET - /books/{id}
-//    @GetMapping("/{id}")
-//    public Book getBookById(@PathVariable String id) {
-//        for (Book book : books) {
-//            if (book.getId().equals(id)) {
-//                return book;
-//            }
-//        }
-//        return null;
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getBookById(@PathVariable String id) {
+        Book book = bookService.getBookById(id);
+        return ResponseEntity.ok(book);
+    }
 
     /*
     1. Viết API để trả về danh sachs book. Sắp xếp theo năm giảm dần
