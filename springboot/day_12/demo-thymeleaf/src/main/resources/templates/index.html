@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<h1>Home Page</h1>
+
+<p th:text="${name}"></p>
+<p th:text="${salary}"></p>
+
+<ul>
+    <li th:each="person : ${people}">
+        <span th:text="${person.name}"></span>
+        <span th:text="${person.gender.equals('M') ? 'Nam' : 'Nu'}"></span>
+        <span th:if="${person.age >= 18}">Tren 18 tuoi</span>
+        <span th:if="${person.age < 18}">Duoi 18 tuoi</span>
+    </li>
+</ul>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
