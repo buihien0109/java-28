@@ -12,14 +12,45 @@
 <p th:text="${name}"></p>
 <p th:text="${salary}"></p>
 
-<ul>
-    <li th:each="person : ${people}">
-        <span th:text="${person.name}"></span>
-        <span th:text="${person.gender.equals('M') ? 'Nam' : 'Nu'}"></span>
-        <span th:if="${person.age >= 18}">Tren 18 tuoi</span>
-        <span th:if="${person.age < 18}">Duoi 18 tuoi</span>
-    </li>
-</ul>
+<!--<ul>-->
+<!--    <li th:each="person : ${people}">-->
+<!--        <span th:text="${person.name}"></span>-->
+<!--        <span th:text="${person.gender.equals('M') ? 'Nam' : 'Nu'}"></span>-->
+<!--        <span th:if="${person.age >= 18}">Tren 18 tuoi</span>-->
+<!--        <span th:if="${person.age < 18}">Duoi 18 tuoi</span>-->
+<!--    </li>-->
+<!--</ul>-->
+
+<h2>Danh sách User</h2>
+
+<form>
+    <input placeholder="Enter name..." name="keyword" />
+</form>
+<hr />
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Age</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr th:each="person : ${people}">
+            <td th:text="${person.id}">ID</td>
+            <td th:text="${person.name}">Name</td>
+            <td th:text="${person.gender}">Gender</td>
+            <td th:text="${person.age}">Age</td>
+            <td>
+                <a th:href="'/person/' + ${person.id}">Xem chi tiết</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <script th:src="@{/js/main.js}"></script>
 </body>
