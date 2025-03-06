@@ -1,5 +1,6 @@
-package com.example.demothymeleaf.comtroller;
+package com.example.demothymeleaf.controller;
 
+import com.example.demothymeleaf.model.PageResponse;
 import com.example.demothymeleaf.model.Person;
 import com.github.javafaker.Faker;
 import org.springframework.stereotype.Controller;
@@ -31,9 +32,11 @@ public class WebController {
     }
 
     // http://localhost:8080
-    // http://localhost:8080?keyword=Nguyen
+    // http://localhost:8080?keyword=Nguyen&page=1
     @GetMapping("/")
-    public String getHome(Model model, @RequestParam(required = false) String keyword) {
+    public String getHome(Model model,
+                          @RequestParam(required = false) String keyword,
+                          @RequestParam(required = false, defaultValue = "1") int page) {
         List<Person> peopleFound = new ArrayList<>();
         if (keyword != null) {
             peopleFound = people.stream()
@@ -42,6 +45,9 @@ public class WebController {
         } else {
             peopleFound = people;
         }
+
+        PageResponse<Person> pageResponse = new PageResponse<>(peopleFound, 10, page);
+        model.addAttribute("pageResponse", pageResponse);
         model.addAttribute("people", peopleFound);
         model.addAttribute("person", people.get(0));
 
