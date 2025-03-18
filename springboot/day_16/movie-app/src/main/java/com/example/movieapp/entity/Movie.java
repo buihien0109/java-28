@@ -2,9 +2,16 @@ package com.example.movieapp.entity;
 
 import com.example.movieapp.model.enums.MovieType;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@ToString
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "movies")
 public class Movie {
@@ -12,7 +19,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     private String slug;
@@ -23,6 +30,7 @@ public class Movie {
     private String thumbnail;
     private Integer releaseYear;
     private Boolean status;
+    private String trailer;
 
     @Column(columnDefinition = "double default 5.0")
     private Double rating;
