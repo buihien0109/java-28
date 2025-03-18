@@ -8,8 +8,13 @@ import com.github.slugify.Slugify;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 @SpringBootTest
@@ -51,6 +56,24 @@ class MovieAppApplicationTests {
             // Luu vao DB
             movieRepository.save(movie);
         }
+    }
+
+    @Test
+    void testQuery() {
+        // Movie movie = movieRepository.findByName("Dinah Soares");
+        // System.out.println(movie);
+
+        // Sap xep
+//        List<Movie> movieSortByRating = movieRepository
+//                .findByRatingLessThan(8.0, Sort.by("rating").descending().and(Sort.by("name").ascending()));
+//        movieSortByRating.forEach(movie -> System.out.println(movie.getName() + " - " + movie.getRating()));
+
+        // Phan trang
+        Pageable pageable = PageRequest.of(0, 5, Sort.by("rating").descending());
+        Page<Movie> moviePage = movieRepository.findByNameContaining("a", pageable);
+        System.out.println("Total pages: " + moviePage.getTotalPages());
+        System.out.println("Total elements: " + moviePage.getTotalElements());
+        moviePage.getContent().forEach(movie -> System.out.println(movie.getName() + " - " + movie.getRating()));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.movieapp.repository;
 
 import com.example.movieapp.entity.Movie;
+import com.example.movieapp.model.enums.MovieType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,4 +48,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     void deleteByName(String name);
 
     List<Movie> findByStatusTrue();
+
+    Page<Movie> findByTypeAndStatus(MovieType type, Boolean status, Pageable pageable);
 }
