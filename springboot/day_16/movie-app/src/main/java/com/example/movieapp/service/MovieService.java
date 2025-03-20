@@ -26,4 +26,8 @@ public class MovieService {
         Page<Movie> moviePage = movieRepository.findByTypeAndStatus(type, status, pageable);
         return moviePage;
     }
+
+    public Movie findMovieDetails(Integer id, String slug) {
+        return movieRepository.findByIdAndSlugAndStatus(id, slug, true);
+    }
 }

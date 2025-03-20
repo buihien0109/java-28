@@ -62,7 +62,9 @@ public class WebController {
     }
 
     @GetMapping("/phim/{id}/{slug}")
-    public String getMovieDetailsPage(@PathVariable Integer id, @PathVariable String slug) {
+    public String getMovieDetailsPage(@PathVariable Integer id, @PathVariable String slug, Model model) {
+        Movie movie = movieService.findMovieDetails(id, slug);
+        model.addAttribute("movie", movie);
         return "chi-tiet-phim";
     }
 }
