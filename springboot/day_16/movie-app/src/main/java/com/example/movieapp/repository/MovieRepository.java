@@ -10,8 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface MovieRepository extends JpaRepository<Movie, Long> {
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
     Movie findByName(String name);
 
     List<Movie> findByNameContaining(String name);
@@ -55,4 +56,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findHotMovie(Boolean status, Integer limit);
 
     Movie findByIdAndSlugAndStatus(Integer id, String slug, boolean b);
+
+    Optional<Movie> findByIdAndStatusTrue(Integer movieId);
 }
