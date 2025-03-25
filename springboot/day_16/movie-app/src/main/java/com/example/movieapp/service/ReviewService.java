@@ -3,6 +3,8 @@ package com.example.movieapp.service;
 import com.example.movieapp.entity.Movie;
 import com.example.movieapp.entity.Review;
 import com.example.movieapp.entity.User;
+import com.example.movieapp.exception.BadRequestException;
+import com.example.movieapp.exception.NotFoundException;
 import com.example.movieapp.model.request.CreateReviewRequest;
 import com.example.movieapp.model.request.UpdateReviewRequest;
 import com.example.movieapp.repository.MovieRepository;
@@ -33,10 +35,10 @@ public class ReviewService {
         // TODO: Fix login user
         Integer userId = 1;
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy user có id = " + userId));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user có id = " + userId));
 
         Movie movie = movieRepository.findByIdAndStatusTrue(request.getMovieId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy phim có id = " + request.getMovieId()));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy phim có id = " + request.getMovieId()));
 
         Review review = Review.builder()
                 .content(request.getContent())
@@ -53,14 +55,14 @@ public class ReviewService {
         // TODO: Fix login user
         Integer userId = 1;
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy user có id = " + userId));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user có id = " + userId));
 
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy review có id = " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy review có id = " + id));
 
         // Check user is owner of review
         if (!review.getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Không có quyền cập nhật review");
+            throw new BadRequestException("Không có quyền cập nhật review");
         }
 
         review.setContent(request.getContent());
@@ -72,14 +74,14 @@ public class ReviewService {
         // TODO: Fix login user
         Integer userId = 1;
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy user có id = " + userId));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy user có id = " + userId));
 
         Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy review có id = " + id));
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy review có id = " + id));
 
         // Check user is owner of review
         if (!review.getUser().getId().equals(user.getId())) {
-            throw new RuntimeException("Không có quyền xóa review");
+            throw new BadRequestException("Không có quyền xóa review");
         }
         reviewRepository.delete(review);
     }
