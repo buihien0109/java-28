@@ -73,6 +73,10 @@ public class WebController {
         // Lấy danh sách tập phim (movieId, status = true, sort by displayOrder asc)
         List<Episode> episodes = episodeService.findEpisodesByMovieId(id);
         model.addAttribute("episodes", episodes);
+
+        // Kiem tra xem phim co trong danh sach yeu thich cua user khong
+        Boolean isFavorite = true; //favorite.checkFavorite(id);
+        model.addAttribute("isFavorite", isFavorite);
         return "web/chi-tiet-phim";
     }
 
@@ -97,5 +101,10 @@ public class WebController {
         Episode episode = episodeService.findEpisodeByDisplayOrder(id, tap);
         model.addAttribute("episode", episode);
         return "web/xem-phim";
+    }
+
+    @GetMapping("/phim-yeu-thich")
+    public String getFavoritePage(Model model) {
+        return "web/phim-yeu-thich";
     }
 }

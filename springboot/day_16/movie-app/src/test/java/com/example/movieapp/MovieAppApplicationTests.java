@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ class MovieAppApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     void save_countries() {
@@ -143,6 +147,17 @@ class MovieAppApplicationTests {
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
                     .build();
+            userRepository.save(user);
+        }
+    }
+
+    @Test
+    void update_user_password() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            String password = user.getPassword();
+            String newPassword = passwordEncoder.encode(password);
+            user.setPassword(newPassword);
             userRepository.save(user);
         }
     }
@@ -311,6 +326,28 @@ class MovieAppApplicationTests {
                         .movie(movie)
                         .build();
                 reviewRepository.save(review);
+            }
+        }
+    }
+
+    @Test
+    void save_favorites() {
+        List<Movie> movies = movieRepository.findByStatusTrue();
+        User user = userRepository.findById(1).get();
+
+        // random 30 -> 40 favorites
+        for (int i = 0; i < new Random().nextInt(11) + 20; i++) {
+            Movie movie = movies.get(new Random().nextInt(movies.size()));
+
+            // Kiem tra xem da ton tai favorite chua
+            boolean isExist = favoriteRepository.existsByUser_IdAndMovie_Id(user.getId(), movie.getId());
+            if (!isExist) {
+                Favorite favorite = Favorite.builder()
+                        .createdAt(LocalDateTime.now())
+                        .user(user)
+                        .movie(movie)
+                        .build();
+                favoriteRepository.save(favorite);
             }
         }
     }
