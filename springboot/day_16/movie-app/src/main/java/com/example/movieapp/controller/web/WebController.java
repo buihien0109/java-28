@@ -107,4 +107,9 @@ public class WebController {
     public String getFavoritePage(Model model) {
         return "web/phim-yeu-thich";
     }
+
+    @GetMapping("/dang-nhap")
+    public String showLoginPage() {
+        return "web/login";
+    }
 }
