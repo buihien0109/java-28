@@ -2,6 +2,7 @@ package com.example.movieapp.service;
 
 import com.example.movieapp.entity.User;
 import com.example.movieapp.exception.BadRequestException;
+import com.example.movieapp.mapper.UserMapper;
 import com.example.movieapp.model.request.LoginRequest;
 import com.example.movieapp.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class AuthService {
         }
 
         // Luu lai: session, cookie, database, redis, ...
-        session.setAttribute("currentUser", user);
+        session.setAttribute("currentUser", UserMapper.toDTO(user));
     }
 
     public void logout() {

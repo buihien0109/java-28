@@ -1,6 +1,7 @@
 package com.example.movieapp.config;
 
 import com.example.movieapp.entity.User;
+import com.example.movieapp.model.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -15,7 +16,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        User currentUser = (User) session.getAttribute("currentUser");
+        UserDTO currentUser = (UserDTO) session.getAttribute("currentUser");
         if (currentUser == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
             return false;

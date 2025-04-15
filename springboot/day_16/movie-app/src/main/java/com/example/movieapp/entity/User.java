@@ -37,4 +37,6 @@ public class User {
 
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
+
+    // model mapper, mapstruct, ...
 }
