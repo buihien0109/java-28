@@ -43,7 +43,7 @@
           <a class="nav-link py-0 d-flex align-items-center" data-toggle="dropdown" href="#">
             <div class="user-panel">
               <div class="image">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle border" alt="User Image">
+                <img src="/admin-assets/dist/img/user2-160x160.jpg" class="img-circle border" alt="User Image">
               </div>
             </div>
           </a>
@@ -68,9 +68,10 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="./index.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: 0.8" />
+      <a href="/admin/dashboard" class="brand-link">
+        <img src="/admin-assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+             class="brand-image img-circle elevation-3"
+             style="opacity: 0.8"/>
         <span class="brand-text font-weight-light">Admin</span>
       </a>
 
@@ -80,30 +81,24 @@
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="/admin/movies" class="nav-link">
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
-                  Quản lý bài viết
+                  Quản lý phim
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./blog-index.html" class="nav-link">
+                  <a href="/admin/movies" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Tất cả bài viết</p>
+                    <p>Danh sach phim</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="./blog-yourself.html" class="nav-link">
+                  <a href="/admin/movies/create" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Bài viết của tôi</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="./blog-create.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Tạo bài viết</p>
+                    <p>Tạo phim</p>
                   </a>
                 </li>
               </ul>
@@ -145,13 +140,13 @@
             <div class="col-sm-12">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="#">Dashboard</a>
+                  <a href="/admin/dashboard">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="#">Blog</a>
+                  <a href="/admin/movies">Phim</a>
                 </li>
                 <li class="breadcrumb-item active">
-                  Tạo bài viết
+                  Tạo phim
                 </li>
               </ol>
             </div>
@@ -164,20 +159,11 @@
         <div class="container-fluid">
           <div class="row py-2">
             <div class="col-6">
-              <button type="button" class="btn btn-default">
+              <a href="/admin/movies" class="btn btn-default">
                 <i class="fas fa-chevron-left"></i> Quay lại
-              </button>
+              </a>
               <button type="button" class="btn btn-info px-4">
                 Lưu
-              </button>
-              <button type="button" class="btn btn-primary px-4">
-                Preview
-              </button>
-            </div>
-
-            <div class="col-6 d-flex justify-content-end">
-              <button type="button" class="btn btn-danger px-4">
-                Xóa
               </button>
             </div>
           </div>
@@ -207,27 +193,7 @@
                         <label>The loai</label>
                         <div class="select2-purple">
                           <select class="select2 form-control" multiple="multiple" id="genre">
-                            <option>
-                              Java
-                            </option>
-                            <option>
-                              Golang
-                            </option>
-                            <option>
-                              React
-                            </option>
-                            <option>
-                              Lập trình web
-                            </option>
-                            <option>
-                              Database
-                            </option>
-                            <option>
-                              Tips Trick
-                            </option>
-                            <option>
-                              Devops
-                            </option>
+                            <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}">Java</option>
                           </select>
                         </div>
                       </div>
@@ -236,27 +202,7 @@
                         <label>Dao dien</label>
                         <div class="select2-purple">
                           <select class="select2 form-control" multiple="multiple" id="director">
-                            <option>
-                              Java
-                            </option>
-                            <option>
-                              Golang
-                            </option>
-                            <option>
-                              React
-                            </option>
-                            <option>
-                              Lập trình web
-                            </option>
-                            <option>
-                              Database
-                            </option>
-                            <option>
-                              Tips Trick
-                            </option>
-                            <option>
-                              Devops
-                            </option>
+                            <option th:each="director : ${directors}" th:value="${director.id}" th:text="${director.name}">Java</option>
                           </select>
                         </div>
                       </div>
@@ -265,27 +211,7 @@
                         <label>Dien vien</label>
                         <div class="select2-purple">
                           <select class="select2 form-control" multiple="multiple" id="actor">
-                            <option>
-                              Java
-                            </option>
-                            <option>
-                              Golang
-                            </option>
-                            <option>
-                              React
-                            </option>
-                            <option>
-                              Lập trình web
-                            </option>
-                            <option>
-                              Database
-                            </option>
-                            <option>
-                              Tips Trick
-                            </option>
-                            <option>
-                              Devops
-                            </option>
+                            <option th:each="actor : ${actors}" th:value="${actor.id}" th:text="${actor.name}">Java</option>
                           </select>
                         </div>
                       </div>
@@ -296,27 +222,7 @@
                         <label>Quoc gia</label>
                         <div class="select2-purple">
                           <select class="select2 form-control" id="country">
-                            <option>
-                              Java
-                            </option>
-                            <option>
-                              Golang
-                            </option>
-                            <option>
-                              React
-                            </option>
-                            <option>
-                              Lập trình web
-                            </option>
-                            <option>
-                              Database
-                            </option>
-                            <option>
-                              Tips Trick
-                            </option>
-                            <option>
-                              Devops
-                            </option>
+                            <option th:each="country : ${countries}" th:value="${country.id}" th:text="${country.name}">Java</option>
                           </select>
                         </div>
                       </div>
@@ -325,27 +231,9 @@
                         <label>Loai phim</label>
                         <div class="select2-purple">
                           <select class="select2 form-control" id="type">
-                            <option>
-                              Java
-                            </option>
-                            <option>
-                              Golang
-                            </option>
-                            <option>
-                              React
-                            </option>
-                            <option>
-                              Lập trình web
-                            </option>
-                            <option>
-                              Database
-                            </option>
-                            <option>
-                              Tips Trick
-                            </option>
-                            <option>
-                              Devops
-                            </option>
+                            <option value="PHIM_BO">Phim bo</option>
+                            <option value="PHIM_LE">Phim le</option>
+                            <option value="PHIM_CHIEU_RAP">Phim chieu rap</option>
                           </select>
                         </div>
                       </div>
@@ -353,10 +241,10 @@
                       <div class="form-group">
                         <label>Trạng thái</label>
                         <select id="status" class="form-control">
-                          <option value="0">
+                          <option value="false">
                             Nháp
                           </option>
-                          <option value="1">
+                          <option value="true">
                             Công khai
                           </option>
                         </select>
