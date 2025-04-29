@@ -1,9 +1,11 @@
 package com.example.movieapp.controller.admin;
 
+import com.example.movieapp.entity.Movie;
 import com.example.movieapp.repository.ActorRepository;
 import com.example.movieapp.repository.CountryRepository;
 import com.example.movieapp.repository.DirectorRepository;
 import com.example.movieapp.repository.GenreRepository;
+import com.example.movieapp.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ public class MovieController {
     private final ActorRepository actorRepository;
     private final DirectorRepository directorRepository;
     private final GenreRepository genreRepository;
+    private final MovieService movieService;
 
     @GetMapping
     public String getIndexPage() {
@@ -35,7 +38,12 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public String getDetailsPage(@PathVariable Long id) {
+    public String getDetailsPage(@PathVariable Integer id,  Model model) {
+        model.addAttribute("movie", movieService.getMovieById(id));
+        model.addAttribute("directors", directorRepository.findAll());
+        model.addAttribute("actors", actorRepository.findAll());
+        model.addAttribute("genres", genreRepository.findAll());
+        model.addAttribute("countries", countryRepository.findAll());
         return "admin/movie/detail";
     }
 }

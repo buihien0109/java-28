@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/admin/movies")
@@ -35,5 +36,10 @@ public class MovieApi {
     ResponseEntity<?> deleteMovie(@PathVariable Integer id) {
         movieService.deleteMovie(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/upload-thumbnail")
+    ResponseEntity<?> uploadThumbnail(@RequestParam MultipartFile file, @PathVariable Integer id) {
+        return ResponseEntity.ok(movieService.uploadThumbnail(id, file));
     }
 }

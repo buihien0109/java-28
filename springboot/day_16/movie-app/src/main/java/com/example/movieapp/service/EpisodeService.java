@@ -14,15 +14,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class EpisodeService {
     private final EpisodeRepository episodeRepository;
     private final MovieRepository movieRepository;
+    private final CloudinaryService cloudinaryService;
 
     public List<Episode> findEpisodesByMovieId(Integer id) {
         return episodeRepository.findByMovie_IdAndStatusOrderByDisplayOrderAsc(id, true);
@@ -81,5 +84,23 @@ public class EpisodeService {
 
         // TODO: Xóa video trên cloudinary
         episodeRepository.delete(episode);
+    }
+
+    public Map uploadVideo(Integer id, MultipartFile file) {
+        Episode episode = episodeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy tập phim có id = " + id));
+
+        try {
+            Map map = cloudinaryService.uploadVideo(file, "video_java_27_28");
+            System.out.println(map);
+
+            episode.setVideoUrl(map.get("url").toString());
+            episode.setUpdatedAt(LocalDateTime.now());
+            episodeRepository.save(episode);
+
+            return Map.of("url", map.get("url"));
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 }

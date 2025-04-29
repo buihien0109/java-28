@@ -2,6 +2,7 @@ package com.example.movieapp.service;
 
 import com.example.movieapp.entity.Country;
 import com.example.movieapp.entity.Movie;
+import com.example.movieapp.exception.BadRequestException;
 import com.example.movieapp.exception.NotFoundException;
 import com.example.movieapp.model.enums.MovieType;
 import com.example.movieapp.model.request.UpsertMovieRequest;
@@ -13,9 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class MovieService {
     private final GenreRepository genreRepository;
     private final ActorRepository actorRepository;
     private final DirectorRepository directorRepository;
+    private final CloudinaryService cloudinaryService;
 
     public List<Movie> findHotMovie(Boolean status, Integer limit) {
         return movieRepository.findHotMovie(status, limit);
@@ -43,6 +47,10 @@ public class MovieService {
     public Page<Movie> getAllMovies(Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());
         return movieRepository.findAll(pageable);
+    }
+
+    public Movie getMovieById(Integer id) {
+        return movieRepository.findById(id).orElse(null);
     }
 
     public Movie createMovie(UpsertMovieRequest request) {
@@ -98,5 +106,22 @@ public class MovieService {
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Không tìm thấy phim với id " + id));
         movieRepository.delete(movie);
+    }
+
+    public Map uploadThumbnail(Integer id, MultipartFile file) {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy phim với id " + id));
+        try {
+            Map map = cloudinaryService.uploadFile(file, "file_java_27_28");
+
+            String url = map.get("url").toString();
+            movie.setThumbnail(url);
+            movie.setUpdatedAt(LocalDateTime.now());
+            movieRepository.save(movie);
+
+            return Map.of("url", url);
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 }
